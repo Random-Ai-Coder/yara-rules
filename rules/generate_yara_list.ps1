@@ -3,7 +3,8 @@
 
 #Input: Specify the folder containing YARA files
 $folder = "<path to rule folder in here > rules"
-$output = "$folder\yara_files_list.json"
+$output = (Join-Path -Path (Split-Path $folder -Parent) -ChildPath "output\yara_files_list.json")
+
 
 
 $files = Get-ChildItem -Path $folder -Recurse -Include *.yar,*.yara | Select-Object -ExpandProperty FullName

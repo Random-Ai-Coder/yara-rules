@@ -14,16 +14,20 @@ binaryalert/
 ├── README.md
 ├── requirements.txt
 ├── rules/
+│   ├── clone_rules.py
+│   ├── compile_rules.py
 │   ├── generate_yara_list.ps1
 │   ├── extract_yara_rule_descriptions.ps1
-│   ├── compile_rules.py
-│   ├── yara_files_list.json
-│   ├── yara_rule_descriptions.json
 │   ├── github.com/
 │   │   └── ... (external YARA rules)
 │   ├── public/
 │   │   └── ... (public YARA rules)
 │   └── ... (other subfolders and .yar/.yara files)
+├── output/
+│   ├── compiled_yara_rules.bin
+│   ├── yara_files_list.json
+│   ├── yara_rule_descriptions.json
+│   └── ... (other generated files)
 └── ...
 ```
 
@@ -44,6 +48,7 @@ binaryalert/
 - YARA rules are collected from various sources and organized under the `rules/` directory.
 - Subfolders (e.g., `github.com/`, `public/`) help categorize rules by source or type.
 - All `.yar` and `.yara` files in `rules/` and its subdirectories are considered for compilation and metadata extraction.
+- The `clone_rules.py` script can be used to fetch and organize rules from upstream sources into the appropriate subfolders.
 
 ### 2. Rule Creation Technique
 - New rules can be added by placing `.yar` or `.yara` files in the appropriate subfolder under `rules/`.
@@ -62,22 +67,29 @@ binaryalert/
 
 ### 3. Scripts and Their Usage
 
-#### a. `generate_yara_list.ps1`
-- **Purpose:** Recursively lists all `.yar` and `.yara` files under `rules/`, outputs a numerically ordered JSON file (`yara_files_list.json`).
+#### a. `clone_rules.py`
+- **Purpose:** Fetches and organizes rules from upstream sources into the `rules/` directory.
+- **Usage:**
+  ```bash
+  python ./rules/clone_rules.py
+  ```
+
+#### b. `generate_yara_list.ps1`
+- **Purpose:** Recursively lists all `.yar` and `.yara` files under `rules/`, outputs a numerically ordered JSON file (`output/yara_files_list.json`).
 - **Usage:**
   ```powershell
   pwsh ./rules/generate_yara_list.ps1
   ```
 
-#### b. `extract_yara_rule_descriptions.ps1`
-- **Purpose:** Extracts rule names and their one-line descriptions from the `meta` section of each rule in all `.yar`/`.yara` files, outputs to `yara_rule_descriptions.json`.
+#### c. `extract_yara_rule_descriptions.ps1`
+- **Purpose:** Extracts rule names and their one-line descriptions from the `meta` section of each rule in all `.yar`/`.yara` files, outputs to `output/yara_rule_descriptions.json`.
 - **Usage:**
   ```powershell
   pwsh ./rules/extract_yara_rule_descriptions.ps1
   ```
 
-#### c. `compile_rules.py`
-- **Purpose:** Compiles all YARA rules in the `rules/` directory into a single binary file (`compiled_yara_rules.bin`) for efficient loading in applications (e.g., AWS Lambda).
+#### d. `compile_rules.py`
+- **Purpose:** Compiles all YARA rules in the `rules/` directory into a single binary file (`output/compiled_yara_rules.bin`) for efficient loading in applications (e.g., AWS Lambda).
 - **Usage:**
   ```bash
   python ./rules/compile_rules.py
@@ -118,27 +130,31 @@ python ./rules/compile_rules.py
 ---
 
 ## Example Workflow
-1. **Add or update YARA rules** in the `rules/` directory.
-2. **(Optional)** Generate the rule list and descriptions using the Python scripts as described above.
-3. **Or, run the PowerShell scripts** to update the file list and rule descriptions:
+1. **(Optional)** Gather or update YARA rules from upstream using `clone_rules.py`:
+   ```bash
+   python ./rules/clone_rules.py
+   ```
+2. **Add or update YARA rules** in the `rules/` directory.
+3. **(Optional)** Generate the rule list and descriptions using the Python scripts as described above.
+4. **Or, run the PowerShell scripts** to update the file list and rule descriptions:
    ```powershell
    pwsh ./rules/generate_yara_list.ps1
    pwsh ./rules/extract_yara_rule_descriptions.ps1
    ```
-4. **Compile the rules** into a binary file:
+5. **Compile the rules** into a binary file:
    ```bash
    python ./rules/compile_rules.py
    ```
-5. **Deploy** the compiled rules and metadata files as needed (e.g., to AWS Lambda).
+6. **Deploy** the compiled rules and metadata files from the `output/` directory as needed (e.g., to AWS Lambda).
 
 ---
 
 ## Notes
-- Rule sources are denoted in `yara_files_list.json` and `yara_rule_descriptions.json`.
+- Rule sources and generated metadata are stored in the `output/` directory: `compiled_yara_rules.bin`, `yara_files_list.json`, and `yara_rule_descriptions.json`.
 - Ensure all rules are compatible with YARA 4.0.0.
 - If using on macOS/Linux, install PowerShell Core (`brew install --cask powershell` on macOS).
 - For Windows, ensure Microsoft Visual C++ Build Tools are installed if building `yara-python` from source.
-- The JSON outputs (`yara_files_list.json`, `yara_rule_descriptions.json`) are regenerated each time the scripts are run.
+- The JSON outputs in `output/` are regenerated each time the scripts are run.
 
 ---
 

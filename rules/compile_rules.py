@@ -46,7 +46,7 @@ def run_powershell_script(script_path):
 
 if __name__ == "__main__":
     rules_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), "rules")
-    output_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "compiled_yara_rules.bin")
+    output_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "output", "compiled_yara_rules.bin"))
     compile_rules(output_path, rules_directory)
    
     # Run the PowerShell scripts
