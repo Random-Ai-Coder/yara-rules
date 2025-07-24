@@ -3,14 +3,12 @@
 
 #Input: Specify the folder containing YARA files
 $folder = "rules"
-$output = "output\\yara_files_list.json"
-
-
+$output = "output\yara_files_list.json"
 
 $files = Get-ChildItem -Path $folder -Recurse -Include *.yar,*.yara | Select-Object -ExpandProperty FullName
 $json = @()
 for ($i=0; $i -lt $files.Count; $i++) {
-    $rel = $files[$i] -replace [regex]::Escape($folder + "\"), "rules/"
+    $rel = $files[$i] -replace ".*\\rules\\", "rules\\"
     $json += "$($i+1). $rel"
 }
 $json | ConvertTo-Json | Set-Content $output
