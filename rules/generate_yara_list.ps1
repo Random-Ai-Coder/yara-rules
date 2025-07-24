@@ -2,7 +2,7 @@
 # Usage: Run this script in PowerShell to generate a list of YARA files
 
 #Input: Specify the folder containing YARA files
-$folder = "c:\Users\-loper-araj234\TfCodebase\binaryalert\rules"
+$folder = "<path to rule folder in here > rules"
 $output = "$folder\yara_files_list.json"
 
 

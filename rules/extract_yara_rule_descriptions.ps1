@@ -4,7 +4,7 @@
 
 
 # Input: Specify the folder containing YARA files
-$folder = "c:\Users\-loper-araj234\TfCodebase\binaryalert\rules"
+$folder = "<path to rule folder in here > rules"
 $output = "$folder\yara_rule_descriptions.json"
 $results = @()
 $counter = 1
