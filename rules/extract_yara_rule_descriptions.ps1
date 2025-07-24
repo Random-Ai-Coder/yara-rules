@@ -4,8 +4,9 @@
 
 
 # Input: Specify the folder containing YARA files
-$folder = "<path to rule folder in here > rules"
-$output = (Join-Path -Path (Split-Path $folder -Parent) -ChildPath "output\yara_rule_descriptions.json")
+$folder = "rules"
+# $output = (Join-Path -Path (Split-Path $folder -Parent) -ChildPath "output\yara_rule_descriptions.json")
+$output = "output\\yara_rule_descriptions.json"
 $results = @()
 $counter = 1
 

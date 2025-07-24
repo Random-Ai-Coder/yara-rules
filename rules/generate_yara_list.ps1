@@ -2,8 +2,8 @@
 # Usage: Run this script in PowerShell to generate a list of YARA files
 
 #Input: Specify the folder containing YARA files
-$folder = "<path to rule folder in here > rules"
-$output = (Join-Path -Path (Split-Path $folder -Parent) -ChildPath "output\yara_files_list.json")
+$folder = "rules"
+$output = "output\\yara_files_list.json"
 
 
 
