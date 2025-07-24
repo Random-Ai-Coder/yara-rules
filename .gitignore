@@ -9,10 +9,11 @@ __pycache__/
 lambda_*.zip
 
 # Virtualenv
-venv/
+yara-env/
 
-# Compiled YARA rules
-compiled_yara_rules.bin
+*.git
+
+
 
 # IDE
 .idea/

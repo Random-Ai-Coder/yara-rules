@@ -93,3 +93,5 @@ def clone_remote_rules() -> None:
     print('Done! {} YARA {} cloned from {} {}.'.format(
         total_files_copied, 'file' if total_files_copied == 1 else 'files',
         num_repos, 'repository' if num_repos == 1 else 'repositories'))
+
+clone_remote_rules()
