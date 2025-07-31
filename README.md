@@ -162,3 +162,39 @@ python ./rules/compile_rules.py
 - [YARA Documentation](https://yara.readthedocs.io/en/stable/)
 - [PowerShell Documentation](https://docs.microsoft.com/en-us/powershell/)
 - [Python YARA Bindings](https://github.com/VirusTotal/yara-python)
+
+---
+
+## PowerShell Installation (macOS/Linux)
+
+If you are using macOS or Linux, you need to install PowerShell Core to run the provided `.ps1` scripts:
+
+### On macOS:
+```bash
+brew install powershell
+```
+
+### On Linux (Ubuntu/Debian):
+```bash
+sudo apt-get update
+sudo apt-get install -y wget apt-transport-https software-properties-common
+wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install -y powershell
+```
+
+### On Linux (RHEL/CentOS/Fedora):
+```bash
+sudo dnf install -y wget
+wget -q https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
+sudo rpm -Uvh packages-microsoft-prod.rpm
+sudo dnf install -y powershell
+```
+
+After installation, run PowerShell with:
+```bash
+pwsh
+```
+
+---
